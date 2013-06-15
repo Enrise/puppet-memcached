@@ -15,7 +15,7 @@ class memcached (
     owner   => root,
     group   => root,
   }
-  
+
   file { '/var/run/memcached':
     ensure => directory,
     owner  => $user,
@@ -35,11 +35,11 @@ class memcached (
     content => template('memcached/startscript.sh'),
     mode    => 755,
   }
-  
+
   if ($bool_disable_default == true) {
     file { '/etc/memcached.conf': 
       ensure => absent
     }
   }
-  
+
 }

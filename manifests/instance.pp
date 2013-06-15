@@ -11,13 +11,13 @@ define memcached::instance (
 
   include memcached
 
-  file { "${memcached::conf_prefix}${name}.conf":
+  file { "${::memcached::conf_prefix}${name}.conf":
     ensure   => file,
     content => template($template_config),
     notify  => Service["memcached-${name}"],
   }
 
-  file { "${memcached::init_script}-${name}":
+  file { "${::memcached::init_script}-${name}":
     ensure   => link,
     target   => $memcached::init_script,
     before   => Service ["memcached-${name}"]
