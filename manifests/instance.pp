@@ -4,7 +4,10 @@ define memcached::instance (
   $group           = 'root',
   $template_config = 'memcached/instance-config.conf',
   $log_path        = '/var/log/memcached.log',
+  $configure_user  = true,
 ) {
+
+  $bool_configure_user = true
 
   include memcached
 
@@ -25,9 +28,10 @@ define memcached::instance (
     ensure    => running,
   }
 
-  # Make sure the user is member of the memcached group
-  User <| title == $user |> { groups +> 'memcache' }
-  realize User[$user]
-  Group['memcache'] -> User[$user]
-
+  if ($bool_configure_user == true) {
+    # Make sure the user is member of the memcached group
+    User <| title == $user |> { groups +> $::memcached::group }
+    realize User[$user]
+    Group[$::memcached::group] -> User[$user]
+  }
 }
