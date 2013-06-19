@@ -23,11 +23,11 @@ class memcached (
     mode   => 1771,
   }
 
-  group { 'memcache':
+  group { $group:
     system => true,
   }
 
-  user { 'memcache':
+  user { $user:
     system  => true,
   }
 
